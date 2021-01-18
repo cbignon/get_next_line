@@ -6,7 +6,7 @@
 /*   By: cbignon <cbignon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 11:42:49 by cbignon           #+#    #+#             */
-/*   Updated: 2021/01/18 10:51:10 by cbignon          ###   ########.fr       */
+/*   Updated: 2021/01/18 15:30:32 by cbignon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int		get_next_line(int fd, char **line)
 		if (!(temp = ft_calloc(BUFFER_SIZE + 1, 1)))
 			return (-1);
 	}
-	in_buf = 1;
+	in_buf = 0;
 	while (in_buf >= 0)
 	{
 		in_buf = read(fd, buf, BUFFER_SIZE);
@@ -91,6 +91,7 @@ int		get_next_line(int fd, char **line)
 			{
 				put_in_line(temp, line, line_len);
 				free(temp);
+				temp = NULL;
 				return (0);
 			}
 			temp = keep_in_temp(temp, buf);
@@ -103,6 +104,7 @@ int		get_next_line(int fd, char **line)
 			put_in_line(temp, line, line_len);
 			temp = keep_in_temp(temp + (line_len + 1), buf);
 			free(buf);
+			buf= NULL;
 			return (1);
 		}
 	}
