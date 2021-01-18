@@ -1,0 +1,13 @@
+ ### DISCLAIMER ###
+We made everything we could to make this project both portable and reliable. This means the docker container is running on a Centos 8 with a Centos 8 libc. It is likely this libc is different from the one used by Deepthought.
+
+To use this project during an official 42 peer evaluation, please follow these guidelines:
+- If this project reports an error, check for yourself with guacamole
+- If this project says a function is valid, check by yourself by reading the code or using guacamole
+- If this project issues a warning, try to understand why it occurred, and decide if this is a valid behavior, or if this is a mistake
+- Some of the tests rely on our personal interpretation of the subject. It is likely we got some of them wrong, if we report an error, make sure it is an error, and cannot be anything else
+
+ ### USAGE ###
+To use this project, go ahead and clone your repo into the libft/ directory.
+Once it's done, you can run 'make' to compile or 'make test' to compile and test.
+Get more informations with './test.bin --help'.

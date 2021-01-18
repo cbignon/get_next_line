@@ -1,0 +1,47 @@
+//#include "get_next_line.h"
+# include <fcntl.h>
+# include <stddef.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <stdio.h>
+
+#define BUFFER_SIZE 100000
+
+void	ft_bzero(void *s, size_t n);
+
+int main(int argc, char **argv)
+{
+	int fd;
+	char *buf;
+	ssize_t	check_read;
+
+	fd = open("text.txt", O_RDONLY);
+	buf = malloc(sizeof(char) * BUFFER_SIZE + 1);
+	buf[BUFFER_SIZE] = '\0';
+	check_read = 1;
+	while (check_read > 0)
+	{
+		ft_bzero(buf,BUFFER_SIZE);
+		check_read = read(fd, buf, BUFFER_SIZE);
+		printf("%s", buf);
+	}
+	close(fd);
+	free(buf);
+	return (0);
+}
+
+
+void	ft_bzero(void *s, size_t n)
+{
+	size_t	x;
+	char	*s_tmp;
+
+	x = 0;
+	s_tmp = (char*)s;
+	while (x < n)
+	{
+		s_tmp[x] = 0;
+		x++;
+	}
+}
+
