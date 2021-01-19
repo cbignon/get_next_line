@@ -6,7 +6,7 @@
 /*   By: cbignon <cbignon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 11:42:49 by cbignon           #+#    #+#             */
-/*   Updated: 2021/01/19 11:14:29 by cbignon          ###   ########.fr       */
+/*   Updated: 2021/01/19 11:20:54 by cbignon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,12 @@ int		get_next_line(int fd, char **line)
 	while (in_buf >= 0)
 	{
 		in_buf = read(fd, buf, BUFFER_SIZE);
-		temp = keep_in_temp(temp, buf);
+		if ((temp = keep_in_temp(temp, buf)) == NULL)
+			return (-1);
 		line_len = ft_strclen(temp, 0);
 		while (ft_end_of_line(temp, line_len) == -1)
 		{
+			ft_memset(buf, 0, BUFFER_SIZE);
 			in_buf = read(fd, buf, BUFFER_SIZE);
 			if (in_buf == 0)
 			{
