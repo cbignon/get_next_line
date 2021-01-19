@@ -6,7 +6,7 @@
 /*   By: cbignon <cbignon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 11:42:49 by cbignon           #+#    #+#             */
-/*   Updated: 2021/01/19 11:26:18 by cbignon          ###   ########.fr       */
+/*   Updated: 2021/01/19 13:41:59 by cbignon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,28 +38,24 @@ int		put_in_line(char *temp, char **line, int size)
 	return (0);
 }
 
-char	*keep_in_temp(char *temp, char *buf)
+char	*keep_in_temp(char *temp, char *buf, int newsize)
 {
-	size_t		biglen;
+//	size_t		biglen;
 	size_t		x;
 	size_t		y;
 	char		*big_s;
 
-	if (temp == NULL && buf == NULL)
-		return (NULL);
-	if (*buf == 0)
-		biglen = ft_strclen((char*)temp, 0);
-	else
-		biglen = (ft_strclen((char*)temp, 0) + BUFFER_SIZE);
-	if (!(big_s = (char*)malloc(sizeof(char) * (biglen + 1))))
+	if (buf == 0)
+		return (temp);
+	if (!(big_s = (char *)malloc(sizeof(char) * newsize + 1)))
 		return (NULL);
 	x = -1;
 	while (++x < ft_strclen((char*)temp, 0))
 		big_s[x] = temp[x];
 	y = 0;
-	while (x < biglen)
+	while (x < newsize)
 		big_s[x++] = buf[y++];
-	big_s[x] = '\0';
+	big_s[newsize] = '\0';
 	return (big_s);
 }
 
@@ -92,7 +88,7 @@ int		get_next_line(int fd, char **line)
 	while (in_buf >= 0)
 	{
 		in_buf = read(fd, buf, BUFFER_SIZE);
-		if ((temp = keep_in_temp(temp, buf)) == NULL)
+		if ((temp = keep_in_temp(temp, buf, in_buf + ft_strclen(temp, 0))) == NULL)
 			return (-1);
 		line_len = ft_strclen(temp, 0);
 		while (ft_end_of_line(temp, line_len) == -1)
@@ -103,10 +99,12 @@ int		get_next_line(int fd, char **line)
 			{
 				put_in_line(temp, line, line_len);
 				free(temp);
+				free(buf);
 				temp = NULL;
+				buf = NULL;
 				return (0);
 			}
-			temp = keep_in_temp(temp, buf);
+			temp = keep_in_temp(temp, buf, (in_buf + ft_strclen(temp, 0)));
 			line_len = ft_strclen(temp, 0);
 		}
 		if (ft_end_of_line(temp, line_len) == 1)
@@ -114,13 +112,9 @@ int		get_next_line(int fd, char **line)
 			ft_memset(buf, 0, BUFFER_SIZE);
 			line_len = ft_strclen(temp, '\n');
 			put_in_line(temp, line, line_len);
-			temp = keep_in_temp(temp + (line_len + 1), buf);
-			free(buf);
-			buf = NULL;
+			temp = keep_in_temp((temp + (line_len + 1)), buf, (ft_strclen((char*)temp, 0)) - (line_len));
 			return (1);
 		}
-		free(temp);
-		temp = NULL;
 	}
 	return (-1);
 }
