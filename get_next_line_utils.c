@@ -6,7 +6,7 @@
 /*   By: cbignon <cbignon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 11:43:05 by cbignon           #+#    #+#             */
-/*   Updated: 2021/01/14 16:45:45 by cbignon          ###   ########.fr       */
+/*   Updated: 2021/01/19 13:58:49 by cbignon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,13 @@ void	*ft_calloc(size_t number, size_t size)
 		x++;
 	}
 	return (to_allocate);
+}
+
+int		free_static(char *temp, char *buf)
+{
+	free(temp);
+	temp = NULL;
+	free(buf);
+	buf = NULL;
+	return (0);
 }

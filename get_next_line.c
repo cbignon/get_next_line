@@ -6,7 +6,7 @@
 /*   By: cbignon <cbignon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 11:42:49 by cbignon           #+#    #+#             */
-/*   Updated: 2021/01/19 13:41:59 by cbignon          ###   ########.fr       */
+/*   Updated: 2021/01/19 13:58:08 by cbignon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,11 @@ char	*keep_in_temp(char *temp, char *buf, int newsize)
 	return (big_s);
 }
 
-int		input_error(int fd, char **line)
+int		input_error(int fd, char **line, int in_buf)
 {
 	if (!line || !fd || BUFFER_SIZE <= 0)
+		return (-1);
+	if (in_buf < 0)
 		return (-1);
 	return (0);
 }
@@ -72,7 +74,6 @@ int		get_next_line(int fd, char **line)
 	static char	*buf;
 	int			line_len;
 	int			in_buf;
-
 	
 	if (!buf)
 	{
@@ -98,10 +99,7 @@ int		get_next_line(int fd, char **line)
 			if (in_buf == 0)
 			{
 				put_in_line(temp, line, line_len);
-				free(temp);
-				free(buf);
-				temp = NULL;
-				buf = NULL;
+				free_static(temp, buf);
 				return (0);
 			}
 			temp = keep_in_temp(temp, buf, (in_buf + ft_strclen(temp, 0)));
