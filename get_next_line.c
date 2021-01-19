@@ -6,7 +6,7 @@
 /*   By: cbignon <cbignon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 11:42:49 by cbignon           #+#    #+#             */
-/*   Updated: 2021/01/19 13:58:08 by cbignon          ###   ########.fr       */
+/*   Updated: 2021/01/19 15:44:49 by cbignon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,32 +40,22 @@ int		put_in_line(char *temp, char **line, int size)
 
 char	*keep_in_temp(char *temp, char *buf, int newsize)
 {
-//	size_t		biglen;
-	size_t		x;
-	size_t		y;
-	char		*big_s;
+	int		x;
+	int		y;
+	char	*big_s;
 
 	if (buf == 0)
 		return (temp);
 	if (!(big_s = (char *)malloc(sizeof(char) * newsize + 1)))
 		return (NULL);
 	x = -1;
-	while (++x < ft_strclen((char*)temp, 0))
+	while (++x < (int)ft_strclen((char*)temp, 0))
 		big_s[x] = temp[x];
 	y = 0;
 	while (x < newsize)
 		big_s[x++] = buf[y++];
 	big_s[newsize] = '\0';
 	return (big_s);
-}
-
-int		input_error(int fd, char **line, int in_buf)
-{
-	if (!line || !fd || BUFFER_SIZE <= 0)
-		return (-1);
-	if (in_buf < 0)
-		return (-1);
-	return (0);
 }
 
 int		get_next_line(int fd, char **line)
@@ -75,6 +65,8 @@ int		get_next_line(int fd, char **line)
 	int			line_len;
 	int			in_buf;
 	
+	if (!line || !fd || BUFFER_SIZE <= 0 || fd < 0)
+		return (-1);
 	if (!buf)
 	{
 		if (!(buf = ft_calloc(BUFFER_SIZE, 1)))
@@ -88,22 +80,26 @@ int		get_next_line(int fd, char **line)
 	in_buf = 0;
 	while (in_buf >= 0)
 	{
-		in_buf = read(fd, buf, BUFFER_SIZE);
-		if ((temp = keep_in_temp(temp, buf, in_buf + ft_strclen(temp, 0))) == NULL)
+		ft_memset(buf, 0, BUFFER_SIZE);
+		if ((in_buf = read(fd, buf, BUFFER_SIZE)) < 0)
+			return (-1);
+		if ((temp = keep_in_temp(temp, buf, in_buf + ft_strclen(temp, '\0'))) == NULL)
 			return (-1);
 		line_len = ft_strclen(temp, 0);
 		while (ft_end_of_line(temp, line_len) == -1)
 		{
 			ft_memset(buf, 0, BUFFER_SIZE);
-			in_buf = read(fd, buf, BUFFER_SIZE);
+			if ((in_buf = read(fd, buf, BUFFER_SIZE)) < 0)
+				return (-1);
 			if (in_buf == 0)
 			{
+				line_len = ft_strclen(temp, '\n');
 				put_in_line(temp, line, line_len);
 				free_static(temp, buf);
 				return (0);
 			}
 			temp = keep_in_temp(temp, buf, (in_buf + ft_strclen(temp, 0)));
-			line_len = ft_strclen(temp, 0);
+			line_len = ft_strclen(temp, '\0');
 		}
 		if (ft_end_of_line(temp, line_len) == 1)
 		{

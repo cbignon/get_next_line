@@ -6,7 +6,7 @@
 /*   By: cbignon <cbignon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 11:42:28 by cbignon           #+#    #+#             */
-/*   Updated: 2021/01/19 13:54:57 by cbignon          ###   ########.fr       */
+/*   Updated: 2021/01/19 15:44:59 by cbignon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	*ft_memcpy(void *dest, const void *src, size_t n);
 void	*ft_memset(void *s, int c, size_t n);
 void	*ft_calloc(size_t number, size_t size);
 size_t	ft_strclen(const char *str, char c);
-int		input_error(int fd, char **line, int in_buf);
 int		free_static(char *temp, char *buf);
 #endif
 
