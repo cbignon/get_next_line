@@ -6,7 +6,7 @@
 /*   By: cbignon <cbignon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 11:42:49 by cbignon           #+#    #+#             */
-/*   Updated: 2021/01/18 15:30:32 by cbignon          ###   ########.fr       */
+/*   Updated: 2021/01/19 10:10:42 by cbignon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*keep_in_temp(char *temp, char *buf)
 		biglen = ft_strclen((char*)temp, 0);
 	else
 		biglen = (ft_strclen((char*)temp, 0) + BUFFER_SIZE);
-	if (!(big_s = (char*)malloc(sizeof(char) * (biglen) + 1)))
+	if (!(big_s = (char*)malloc(sizeof(char) * (biglen + 1))))
 		return (NULL);
 	x = -1;
 	while (++x < ft_strclen((char*)temp, 0))
@@ -104,9 +104,11 @@ int		get_next_line(int fd, char **line)
 			put_in_line(temp, line, line_len);
 			temp = keep_in_temp(temp + (line_len + 1), buf);
 			free(buf);
-			buf= NULL;
+			buf = NULL;
 			return (1);
 		}
 	}
+	free(temp);
+	temp = NULL;
 	return (-1);
 }
