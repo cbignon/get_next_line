@@ -6,7 +6,7 @@
 /*   By: cbignon <cbignon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 11:42:28 by cbignon           #+#    #+#             */
-/*   Updated: 2021/01/18 17:09:19 by cbignon          ###   ########.fr       */
+/*   Updated: 2021/01/19 11:13:13 by cbignon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,5 @@ size_t	ft_strclen(const char *str, char c);
 #endif
 
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 2
+# define BUFFER_SIZE 54
 #endif
