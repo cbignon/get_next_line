@@ -6,7 +6,7 @@
 /*   By: cbignon <cbignon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 11:42:49 by cbignon           #+#    #+#             */
-/*   Updated: 2021/01/19 10:10:42 by cbignon          ###   ########.fr       */
+/*   Updated: 2021/01/19 11:09:46 by cbignon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,17 @@ char	*keep_in_temp(char *temp, char *buf)
 int		get_next_line(int fd, char **line)
 {
 	static char	*temp;
-	char		*buf;
+	static char	*buf;
 	int			line_len;
 	int			in_buf;
 
-	if (!(buf = ft_calloc(BUFFER_SIZE, 1)) || !line || !fd || BUFFER_SIZE <= 0)
+	if (!line || !fd || BUFFER_SIZE <= 0)
 		return (-1);
+	if (!buf)
+	{
+		if (!(buf = ft_calloc(BUFFER_SIZE, 1)))
+			return (-1);
+	}
 	if (!temp)
 	{
 		if (!(temp = ft_calloc(BUFFER_SIZE + 1, 1)))
