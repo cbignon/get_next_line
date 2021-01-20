@@ -6,7 +6,7 @@
 /*   By: cbignon <cbignon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 11:42:28 by cbignon           #+#    #+#             */
-/*   Updated: 2021/01/19 15:44:59 by cbignon          ###   ########.fr       */
+/*   Updated: 2021/01/19 18:20:39 by cbignon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,5 @@ int		free_static(char *temp, char *buf);
 #endif
 
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 5
+# define BUFFER_SIZE 62
 #endif

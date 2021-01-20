@@ -6,7 +6,7 @@
 /*   By: cbignon <cbignon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 11:42:49 by cbignon           #+#    #+#             */
-/*   Updated: 2021/01/19 15:44:49 by cbignon          ###   ########.fr       */
+/*   Updated: 2021/01/19 17:12:18 by cbignon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int		get_next_line(int fd, char **line)
 	static char	*buf;
 	int			line_len;
 	int			in_buf;
-	
+
 	if (!line || !fd || BUFFER_SIZE <= 0 || fd < 0)
 		return (-1);
 	if (!buf)
@@ -83,7 +83,8 @@ int		get_next_line(int fd, char **line)
 		ft_memset(buf, 0, BUFFER_SIZE);
 		if ((in_buf = read(fd, buf, BUFFER_SIZE)) < 0)
 			return (-1);
-		if ((temp = keep_in_temp(temp, buf, in_buf + ft_strclen(temp, '\0'))) == NULL)
+		if ((temp = keep_in_temp(temp, buf, in_buf +
+			ft_strclen(temp, '\0'))) == NULL)
 			return (-1);
 		line_len = ft_strclen(temp, 0);
 		while (ft_end_of_line(temp, line_len) == -1)
@@ -106,7 +107,8 @@ int		get_next_line(int fd, char **line)
 			ft_memset(buf, 0, BUFFER_SIZE);
 			line_len = ft_strclen(temp, '\n');
 			put_in_line(temp, line, line_len);
-			temp = keep_in_temp((temp + (line_len + 1)), buf, (ft_strclen((char*)temp, 0)) - (line_len));
+			temp = keep_in_temp((temp + (line_len + 1)), buf,
+				(ft_strclen((char*)temp, 0)) - (line_len));
 			return (1);
 		}
 	}
