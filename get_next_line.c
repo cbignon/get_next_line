@@ -6,7 +6,7 @@
 /*   By: cbignon <cbignon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 11:02:46 by cbignon           #+#    #+#             */
-/*   Updated: 2021/01/26 11:06:56 by cbignon          ###   ########.fr       */
+/*   Updated: 2021/01/26 11:51:29 by cbignon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ char	*keep_nxt(char *keep)
 	o_len = ft_strclen(keep, 0);
 	n_len = ft_strclen(keep, '\n') + 1;
 	i = 0;
-	if (!(nxt = malloc(sizeof(char) * (o_len - n_len) + 1)))
-		return (NULL);
 	while (i < n_len)
 		i++;
 	if (!keep[i])
+		return (NULL);
+	if (!(nxt = malloc(sizeof(char) * (o_len - n_len) + 1)))
 		return (NULL);
 	j = 0;
 	while (j < (o_len - n_len))
