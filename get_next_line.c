@@ -5,112 +5,98 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: cbignon <cbignon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/06 11:42:49 by cbignon           #+#    #+#             */
-/*   Updated: 2021/01/19 17:12:18 by cbignon          ###   ########.fr       */
+/*   Created: 2021/01/22 11:02:46 by cbignon           #+#    #+#             */
+/*   Updated: 2021/01/26 11:06:56 by cbignon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 
-int		ft_end_of_line(char *s, int size)
+int		is_this_line(char *str)
+{
+	int		i;
+
+	i = 0;
+	if (str == NULL)
+		return (0);
+	while (str[i])
+	{
+		if (str[i] == '\n')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+char	*keep_nxt(char *keep)
+{
+	char	*nxt;
+	size_t	o_len;
+	size_t	n_len;
+	size_t	i;
+	size_t	j;
+
+	o_len = ft_strclen(keep, 0);
+	n_len = ft_strclen(keep, '\n') + 1;
+	i = 0;
+	if (!(nxt = malloc(sizeof(char) * (o_len - n_len) + 1)))
+		return (NULL);
+	while (i < n_len)
+		i++;
+	if (!keep[i])
+		return (NULL);
+	j = 0;
+	while (j < (o_len - n_len))
+	{
+		nxt[j] = keep[i];
+		i++;
+		j++;
+	}
+	nxt[j] = '\0';
+	free(keep);
+	return (nxt);
+}
+
+char	*put_in_line(char *temp, char **line, int size)
 {
 	int	x;
 
 	x = 0;
+	if (!(*line = malloc(sizeof(char) * (size + 1))))
+		return (NULL);
+	(*line)[size] = '\0';
 	while (x < size)
 	{
-		if (s[x] == '\n')
-			return (1);
-		if (s[x] == '\0')
-			return (0);
+		(*line)[x] = temp[x];
 		x++;
 	}
-	return (-1);
-}
-
-int		put_in_line(char *temp, char **line, int size)
-{
-	if (!(*line = malloc(sizeof(char) * (size + 1))))
-		return (-1);
-	(*line)[size] = '\0';
-	*line = ft_memcpy(*line, temp, size);
-	return (0);
-}
-
-char	*keep_in_temp(char *temp, char *buf, int newsize)
-{
-	int		x;
-	int		y;
-	char	*big_s;
-
-	if (buf == 0)
-		return (temp);
-	if (!(big_s = (char *)malloc(sizeof(char) * newsize + 1)))
-		return (NULL);
-	x = -1;
-	while (++x < (int)ft_strclen((char*)temp, 0))
-		big_s[x] = temp[x];
-	y = 0;
-	while (x < newsize)
-		big_s[x++] = buf[y++];
-	big_s[newsize] = '\0';
-	return (big_s);
+	return (*line);
 }
 
 int		get_next_line(int fd, char **line)
 {
-	static char	*temp;
-	static char	*buf;
-	int			line_len;
 	int			in_buf;
+	static char	*keep;
+	char		*buf;
 
-	if (!line || !fd || BUFFER_SIZE <= 0 || fd < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || !line ||
+		!(buf = malloc(sizeof(char) * BUFFER_SIZE + 1)))
 		return (-1);
-	if (!buf)
+	in_buf = 1;
+	while (in_buf != 0 && is_this_line(keep) == 0)
 	{
-		if (!(buf = ft_calloc(BUFFER_SIZE, 1)))
-			return (-1);
-	}
-	if (!temp)
-	{
-		if (!(temp = ft_calloc(BUFFER_SIZE + 1, 1)))
-			return (-1);
-	}
-	in_buf = 0;
-	while (in_buf >= 0)
-	{
-		ft_memset(buf, 0, BUFFER_SIZE);
-		if ((in_buf = read(fd, buf, BUFFER_SIZE)) < 0)
-			return (-1);
-		if ((temp = keep_in_temp(temp, buf, in_buf +
-			ft_strclen(temp, '\0'))) == NULL)
-			return (-1);
-		line_len = ft_strclen(temp, 0);
-		while (ft_end_of_line(temp, line_len) == -1)
+		if ((in_buf = read(fd, buf, BUFFER_SIZE)) == -1)
 		{
-			ft_memset(buf, 0, BUFFER_SIZE);
-			if ((in_buf = read(fd, buf, BUFFER_SIZE)) < 0)
-				return (-1);
-			if (in_buf == 0)
-			{
-				line_len = ft_strclen(temp, '\n');
-				put_in_line(temp, line, line_len);
-				free_static(temp, buf);
-				return (0);
-			}
-			temp = keep_in_temp(temp, buf, (in_buf + ft_strclen(temp, 0)));
-			line_len = ft_strclen(temp, '\0');
+			free(buf);
+			return (-1);
 		}
-		if (ft_end_of_line(temp, line_len) == 1)
-		{
-			ft_memset(buf, 0, BUFFER_SIZE);
-			line_len = ft_strclen(temp, '\n');
-			put_in_line(temp, line, line_len);
-			temp = keep_in_temp((temp + (line_len + 1)), buf,
-				(ft_strclen((char*)temp, 0)) - (line_len));
-			return (1);
-		}
+		buf[in_buf] = '\0';
+		keep = ft_join(keep, buf, in_buf);
 	}
-	return (-1);
+	free(buf);
+	*line = put_in_line(keep, line, ft_strclen(keep, '\n'));
+	keep = keep_nxt(keep);
+	if (in_buf == 0)
+		return (0);
+	return (1);
 }

@@ -5,32 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: cbignon <cbignon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/06 11:43:05 by cbignon           #+#    #+#             */
-/*   Updated: 2021/01/19 17:02:30 by cbignon          ###   ########.fr       */
+/*   Created: 2021/01/22 11:03:33 by cbignon           #+#    #+#             */
+/*   Updated: 2021/01/26 10:59:33 by cbignon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-void	*ft_memcpy(void *dest, const void *src, size_t n)
-{
-	size_t		x;
-	char		*dest_tmp;
-	const char	*src_tmp;
-
-	x = 0;
-	dest_tmp = (char*)dest;
-	src_tmp = (const char*)src;
-	if (dest_tmp != NULL || src_tmp != NULL)
-	{
-		while (x < n)
-		{
-			dest_tmp[x] = src_tmp[x];
-			x++;
-		}
-	}
-	return (dest);
-}
 
 size_t	ft_strclen(const char *str, char c)
 {
@@ -42,42 +22,30 @@ size_t	ft_strclen(const char *str, char c)
 	return (len);
 }
 
-void	*ft_memset(void *s, int c, size_t n)
+char	*ft_join(char *s1, char *s2, int buf_len)
 {
-	size_t	i;
-	char	*st;
+	size_t		x;
+	size_t		y;
+	size_t		len1;
+	char		*big_s;
 
-	i = 0;
-	st = (char*)s;
-	while (i < n)
+	len1 = 0;
+	if (s1 == NULL)
+		big_s = malloc(sizeof(char) * (buf_len + 1));
+	else
 	{
-		st[i] = c;
-		i++;
+		len1 = ft_strclen((char*)s1, 0);
+		if (!(big_s = (char*)malloc(sizeof(char) * (buf_len + len1) + 1)))
+			return (NULL);
 	}
-	return ((void*)s);
-}
-
-void	*ft_calloc(size_t number, size_t size)
-{
-	char	*to_allocate;
-	size_t	x;
-
-	if (!(to_allocate = malloc(size * number)))
-		return (NULL);
-	x = 0;
-	while (x < (size * number))
-	{
-		to_allocate[x] = 0;
-		x++;
-	}
-	return (to_allocate);
-}
-
-int		free_static(char *temp, char *buf)
-{
-	free(temp);
-	temp = NULL;
-	free(buf);
-	buf = NULL;
-	return (0);
+	x = -1;
+	while (++x < len1)
+		big_s[x] = s1[x];
+	y = 0;
+	while (x < (buf_len + len1))
+		big_s[x++] = s2[y++];
+	big_s[x] = '\0';
+	if (s1)
+		free(s1);
+	return (big_s);
 }
