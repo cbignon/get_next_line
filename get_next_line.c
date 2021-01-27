@@ -6,7 +6,7 @@
 /*   By: cbignon <cbignon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 11:02:46 by cbignon           #+#    #+#             */
-/*   Updated: 2021/01/27 11:18:54 by cbignon          ###   ########.fr       */
+/*   Updated: 2021/01/27 13:38:34 by cbignon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,6 @@ int		is_this_line(char *str)
 	while (str[i])
 	{
 		if (str[i] == '\n')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-int		is_this_end(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (i < BUFFER_SIZE)
-	{
-		if (str[i] == '\0')
 			return (1);
 		i++;
 	}
