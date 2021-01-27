@@ -51,12 +51,12 @@ char	*keep_nxt(char *keep)
 	size_t	j;
 
 	o_len = ft_strclen(keep, 0);
-	n_len = ft_strclen(keep, '\n') + 1;
+	n_len = ft_strclen(keep, '\n');
 	i = 0;
-	while (i < n_len)
+	while (i < n_len + 1)
 		i++;
 	if (n_len >= o_len)
-		return (NULL);
+		return (keep);
 	if (!(nxt = malloc(sizeof(char) * (o_len - n_len) + 1)))
 		return (NULL);
 	j = 0;
@@ -111,6 +111,10 @@ int		get_next_line(int fd, char **line)
 	*line = put_in_line(keep, line, ft_strclen(keep, '\n'));
 	keep = keep_nxt(keep);
 	if (in_buf == 0)
+	{
+		free(keep);
+		keep = NULL;
 		return (0);
+	}
 	return (1);
 }
