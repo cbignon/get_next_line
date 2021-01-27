@@ -6,7 +6,7 @@
 /*   By: cbignon <cbignon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 11:03:33 by cbignon           #+#    #+#             */
-/*   Updated: 2021/01/26 10:59:33 by cbignon          ###   ########.fr       */
+/*   Updated: 2021/01/27 10:16:51 by cbignon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,19 @@ char	*ft_join(char *s1, char *s2, int buf_len)
 	if (s1)
 		free(s1);
 	return (big_s);
+}
+
+void	*ft_memset(void *s, int c, size_t n)
+{
+	size_t	i;
+	char	*st;
+
+	i = 0;
+	st = (char*)s;
+	while (i < n)
+	{
+		st[i] = c;
+		i++;
+	}
+	return ((void*)s);
 }

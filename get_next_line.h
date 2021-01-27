@@ -6,7 +6,7 @@
 /*   By: cbignon <cbignon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 11:03:26 by cbignon           #+#    #+#             */
-/*   Updated: 2021/01/26 11:00:01 by cbignon          ###   ########.fr       */
+/*   Updated: 2021/01/27 10:40:59 by cbignon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,12 @@ int		get_next_line(int fd, char **line);
 int		is_this_line(char *str);
 size_t	ft_strclen(const char *str, char c);
 char	*ft_join(char *s1, char *s2, int buf_len);
+void	*ft_memset(void *s, int c, size_t n);
 char	*keep_nxt(char *keep);
+void	*ft_memset(void *s, int c, size_t n);
 char	*put_in_line(char *temp, char **line, int size);
 #endif
 
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 6
+# define BUFFER_SIZE 32
 #endif
