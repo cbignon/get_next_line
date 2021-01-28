@@ -6,7 +6,7 @@
 /*   By: cbignon <cbignon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 11:03:33 by cbignon           #+#    #+#             */
-/*   Updated: 2021/01/27 10:16:51 by cbignon          ###   ########.fr       */
+/*   Updated: 2021/01/28 10:37:46 by cbignon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*ft_join(char *s1, char *s2, int buf_len)
 	{
 		len1 = ft_strclen((char*)s1, 0);
 		if (!(big_s = (char*)malloc(sizeof(char) * (buf_len + len1) + 1)))
-			return (NULL);
+			return (malloc_fail(s1));
 	}
 	x = -1;
 	while (++x < len1)
@@ -63,4 +63,14 @@ void	*ft_memset(void *s, int c, size_t n)
 		i++;
 	}
 	return ((void*)s);
+}
+
+void	*malloc_fail(char *str)
+{
+	if (str)
+	{
+		free(str);
+		str = NULL;
+	}
+	return (NULL);
 }

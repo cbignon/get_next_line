@@ -6,11 +6,21 @@
 /*   By: cbignon <cbignon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 11:02:46 by cbignon           #+#    #+#             */
-/*   Updated: 2021/01/27 13:38:34 by cbignon          ###   ########.fr       */
+/*   Updated: 2021/01/28 10:47:18 by cbignon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+int		free_static(char *keep)
+{
+	if (keep)
+	{
+		free(keep);
+		keep = NULL;
+	}
+	return (0);
+}
 
 int		is_this_line(char *str)
 {
@@ -44,7 +54,7 @@ char	*keep_nxt(char *keep)
 	if (n_len >= o_len)
 		return (keep);
 	if (!(nxt = malloc(sizeof(char) * (o_len - n_len) + 1)))
-		return (NULL);
+		return (malloc_fail(keep));
 	j = 0;
 	while (j < (o_len - n_len))
 	{
@@ -63,7 +73,7 @@ char	*put_in_line(char *temp, char **line, int size)
 
 	x = 0;
 	if (!(*line = malloc(sizeof(char) * (size + 1))))
-		return (NULL);
+		return (malloc_fail(temp));
 	(*line)[size] = '\0';
 	while (x < size)
 	{
@@ -79,8 +89,7 @@ int		get_next_line(int fd, char **line)
 	static char	*keep;
 	char		*buf;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || !line ||
-		!(buf = malloc(sizeof(char) * BUFFER_SIZE)))
+	if (fd < 0 || BUFFER_SIZE <= 0 || !line || !(buf = malloc(BUFFER_SIZE)))
 		return (-1);
 	ft_memset(buf, 0, BUFFER_SIZE);
 	in_buf = 1;
@@ -89,6 +98,8 @@ int		get_next_line(int fd, char **line)
 		if ((in_buf = read(fd, buf, BUFFER_SIZE)) == -1)
 		{
 			free(buf);
+			if (keep)
+				free(keep);
 			return (-1);
 		}
 		keep = ft_join(keep, buf, in_buf);
@@ -97,10 +108,6 @@ int		get_next_line(int fd, char **line)
 	*line = put_in_line(keep, line, ft_strclen(keep, '\n'));
 	keep = keep_nxt(keep);
 	if (in_buf == 0)
-	{
-		free(keep);
-		keep = NULL;
-		return (0);
-	}
+		return (free_static(keep));
 	return (1);
 }
