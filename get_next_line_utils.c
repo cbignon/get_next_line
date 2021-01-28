@@ -6,7 +6,7 @@
 /*   By: cbignon <cbignon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 11:03:33 by cbignon           #+#    #+#             */
-/*   Updated: 2021/01/28 10:37:46 by cbignon          ###   ########.fr       */
+/*   Updated: 2021/01/28 14:39:36 by cbignon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,12 @@ char	*ft_join(char *s1, char *s2, int buf_len)
 
 	len1 = 0;
 	if (s1 == NULL)
-		big_s = malloc(sizeof(char) * (buf_len + 1));
-	else
-	{
+		if (!(big_s = malloc(sizeof(char) * (buf_len + 1))))
+			return (malloc_fail(&s2));
+	if (s1)
 		len1 = ft_strclen((char*)s1, 0);
-		if (!(big_s = (char*)malloc(sizeof(char) * (buf_len + len1) + 1)))
-			return (malloc_fail(s1));
-	}
+	if (!(big_s = (char*)malloc(sizeof(char) * (buf_len + len1) + 1)))
+		return (malloc_fail(&s1));
 	x = -1;
 	while (++x < len1)
 		big_s[x] = s1[x];
@@ -65,12 +64,22 @@ void	*ft_memset(void *s, int c, size_t n)
 	return ((void*)s);
 }
 
-void	*malloc_fail(char *str)
+void	*malloc_fail(char **str)
 {
-	if (str)
+	if (*str)
 	{
-		free(str);
-		str = NULL;
+		free(*str);
+		*str = NULL;
 	}
 	return (NULL);
+}
+
+int		free_str(char **keep)
+{
+	if (*keep)
+	{
+		free(*keep);
+		*keep = NULL;
+	}
+	return (0);
 }
