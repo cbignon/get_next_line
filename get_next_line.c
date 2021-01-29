@@ -44,7 +44,7 @@ char	*keep_nxt(char *keep)
 	if (n_len >= o_len)
 		return (keep);
 	if (!(nxt = malloc(sizeof(char) * (o_len - n_len) + 1)))
-		return (malloc_fail(&keep));
+		return ((void*)(unsigned long long)free_str(&keep));
 	j = 0;
 	while (j < (o_len - n_len))
 	{
@@ -63,7 +63,7 @@ char	*put_in_line(char *temp, char **line, int size)
 
 	x = 0;
 	if (!(*line = malloc(sizeof(char) * (size + 1))))
-		return (malloc_fail(&temp));
+		return ((void*)(unsigned long long)free_str(&temp));
 	(*line)[size] = '\0';
 	while (x < size)
 	{

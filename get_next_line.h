@@ -25,10 +25,9 @@ void	*ft_memset(void *s, int c, size_t n);
 char	*keep_nxt(char *keep);
 void	*ft_memset(void *s, int c, size_t n);
 char	*put_in_line(char *temp, char **line, int size);
-int		free_str(char **keep);
-void	*malloc_fail(char **str);
+int		free_str(char **str);
 #endif
 
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 32
+# define BUFFER_SIZE 9
 #endif

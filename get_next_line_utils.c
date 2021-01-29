@@ -31,12 +31,16 @@ char	*ft_join(char *s1, char *s2, int buf_len)
 
 	len1 = 0;
 	if (s1 == NULL)
+	{
 		if (!(big_s = malloc(sizeof(char) * (buf_len + 1))))
-			return (malloc_fail(&s2));
-	if (s1)
+			return ((void*)(unsigned long long)free_str(&s2));
+	}
+	else 
+	{
 		len1 = ft_strclen((char*)s1, 0);
-	if (!(big_s = (char*)malloc(sizeof(char) * (buf_len + len1) + 1)))
-		return (malloc_fail(&s1));
+		if (!(big_s = (char*)malloc(sizeof(char) * (buf_len + len1) + 1)))
+			return ((void*)(unsigned long long)free_str(&s1));
+	}
 	x = -1;
 	while (++x < len1)
 		big_s[x] = s1[x];
@@ -45,7 +49,7 @@ char	*ft_join(char *s1, char *s2, int buf_len)
 		big_s[x++] = s2[y++];
 	big_s[x] = '\0';
 	if (s1)
-		free(s1);
+		free_str(&s1);
 	return (big_s);
 }
 
@@ -64,22 +68,12 @@ void	*ft_memset(void *s, int c, size_t n)
 	return ((void*)s);
 }
 
-void	*malloc_fail(char **str)
+int		free_str(char **str)
 {
 	if (*str)
 	{
 		free(*str);
 		*str = NULL;
-	}
-	return (NULL);
-}
-
-int		free_str(char **keep)
-{
-	if (*keep)
-	{
-		free(*keep);
-		*keep = NULL;
 	}
 	return (0);
 }
