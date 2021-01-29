@@ -6,7 +6,7 @@
 /*   By: cbignon <cbignon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 11:03:33 by cbignon           #+#    #+#             */
-/*   Updated: 2021/01/28 14:39:36 by cbignon          ###   ########.fr       */
+/*   Updated: 2021/01/29 16:00:27 by cbignon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,37 +20,6 @@ size_t	ft_strclen(const char *str, char c)
 	while (str[len] != c && str[len] != '\0')
 		len++;
 	return (len);
-}
-
-char	*ft_join(char *s1, char *s2, int buf_len)
-{
-	size_t		x;
-	size_t		y;
-	size_t		len1;
-	char		*big_s;
-
-	len1 = 0;
-	if (s1 == NULL)
-	{
-		if (!(big_s = malloc(sizeof(char) * (buf_len + 1))))
-			return ((void*)(unsigned long long)free_str(&s2));
-	}
-	else 
-	{
-		len1 = ft_strclen((char*)s1, 0);
-		if (!(big_s = (char*)malloc(sizeof(char) * (buf_len + len1) + 1)))
-			return ((void*)(unsigned long long)free_str(&s1));
-	}
-	x = -1;
-	while (++x < len1)
-		big_s[x] = s1[x];
-	y = 0;
-	while (x < (buf_len + len1))
-		big_s[x++] = s2[y++];
-	big_s[x] = '\0';
-	if (s1)
-		free_str(&s1);
-	return (big_s);
 }
 
 void	*ft_memset(void *s, int c, size_t n)
@@ -76,4 +45,11 @@ int		free_str(char **str)
 		*str = NULL;
 	}
 	return (0);
+}
+
+void	*try_to_malloc(char *dst, char *src, int size)
+{
+	if (!(dst = malloc(sizeof(char) * size)))
+		return ((void*)(unsigned long long)free_str(&src));
+	return (dst);
 }

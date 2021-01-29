@@ -6,7 +6,7 @@
 /*   By: cbignon <cbignon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 11:02:46 by cbignon           #+#    #+#             */
-/*   Updated: 2021/01/28 14:28:53 by cbignon          ###   ########.fr       */
+/*   Updated: 2021/01/29 16:00:40 by cbignon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,34 @@ int		is_this_line(char *str)
 		i++;
 	}
 	return (0);
+}
+
+char	*ft_join(char *s1, char *s2, int buf_len)
+{
+	size_t		x;
+	size_t		y;
+	size_t		len1;
+	char		*big_s;
+
+	len1 = 0;
+	big_s = NULL;
+	if (s1 == NULL)
+		big_s = try_to_malloc(big_s, s2, (buf_len + 1));
+	else
+	{
+		len1 = ft_strclen((char*)s1, 0);
+		if (!(big_s = (char*)malloc(sizeof(char) * (buf_len + len1) + 1)))
+			return ((void*)(unsigned long long)free_str(&s1));
+	}
+	x = -1;
+	while (++x < len1)
+		big_s[x] = s1[x];
+	y = 0;
+	while (x < (buf_len + len1))
+		big_s[x++] = s2[y++];
+	big_s[x] = '\0';
+	free_str(&s1);
+	return (big_s);
 }
 
 char	*keep_nxt(char *keep)
