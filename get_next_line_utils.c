@@ -6,7 +6,7 @@
 /*   By: cbignon <cbignon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 11:03:33 by cbignon           #+#    #+#             */
-/*   Updated: 2021/01/29 16:00:27 by cbignon          ###   ########.fr       */
+/*   Updated: 2021/01/29 21:09:25 by cbignon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,12 @@ int		free_str(char **str)
 	return (0);
 }
 
-void	*try_to_malloc(char *dst, char *src, int size)
+void	*try_to_malloc(char *src, int size)
 {
-	if (!(dst = malloc(sizeof(char) * size)))
+	char	*dest;
+
+	dest = NULL;
+	if (!(dest = malloc(sizeof(char) * size)))
 		return ((void*)(unsigned long long)free_str(&src));
-	return (dst);
+	return (dest);
 }

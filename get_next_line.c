@@ -6,7 +6,7 @@
 /*   By: cbignon <cbignon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 11:02:46 by cbignon           #+#    #+#             */
-/*   Updated: 2021/01/29 16:00:40 by cbignon          ###   ########.fr       */
+/*   Updated: 2021/01/29 21:13:35 by cbignon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,15 @@ char	*ft_join(char *s1, char *s2, int buf_len)
 	char		*big_s;
 
 	len1 = 0;
-	big_s = NULL;
 	if (s1 == NULL)
-		big_s = try_to_malloc(big_s, s2, (buf_len + 1));
+		big_s = try_to_malloc(s2, (buf_len + 1));
 	else
 	{
 		len1 = ft_strclen((char*)s1, 0);
-		if (!(big_s = (char*)malloc(sizeof(char) * (buf_len + len1) + 1)))
-			return ((void*)(unsigned long long)free_str(&s1));
+		big_s = try_to_malloc(s1, (buf_len + len1 + 1));
 	}
+	if (big_s == NULL)
+		return (NULL);
 	x = -1;
 	while (++x < len1)
 		big_s[x] = s1[x];

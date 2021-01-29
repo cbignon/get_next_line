@@ -6,7 +6,7 @@
 /*   By: cbignon <cbignon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 11:03:26 by cbignon           #+#    #+#             */
-/*   Updated: 2021/01/29 16:00:23 by cbignon          ###   ########.fr       */
+/*   Updated: 2021/01/29 21:02:56 by cbignon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*keep_nxt(char *keep);
 void	*ft_memset(void *s, int c, size_t n);
 size_t	ft_strclen(const char *str, char c);
 int		free_str(char **str);
-void	*try_to_malloc(char *dst, char *src, int size);
+void	*try_to_malloc(char *src, int size);
 #endif
 
 #ifndef BUFFER_SIZE
