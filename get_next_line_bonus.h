@@ -6,7 +6,7 @@
 /*   By: cbignon <cbignon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 11:03:26 by cbignon           #+#    #+#             */
-/*   Updated: 2021/02/01 14:49:25 by cbignon          ###   ########.fr       */
+/*   Updated: 2021/02/02 13:52:54 by cbignon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,15 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-typedef	struct	s_gnl_list
-{
-	char		*str;
-	int			in_buf;
-}				t_list;
-int				get_next_line(int fd, char **line);
-int				is_this_line(char *str);
-char			*put_in_line(char *temp, char **line, int size);
-char			*ft_join(char *s1, char *s2, int buf_len);
-char			*keep_nxt(char *keep);
-void			*ft_memset(void *s, int c, size_t n);
-size_t			ft_strclen(const char *str, char c);
-int				free_str(char **str);
-void			*try_to_malloc(char *src, int size);
-t_list			multi_fd_read(char **multi_keep, int fd, char *buf);
+int		get_next_line(int fd, char **line);
+int		is_this_line(char *str);
+char	*put_in_line(char *temp, char **line, int size);
+char	*ft_join(char *s1, char *s2, int buf_len);
+char	*keep_nxt(char *keep);
+void	*ft_memset(void *s, int c, size_t n);
+size_t	ft_strclen(const char *str, char c);
+int		free_str(char **str);
+void	*try_to_malloc(char *src, int size);
 #endif
 
 #ifndef BUFFER_SIZE

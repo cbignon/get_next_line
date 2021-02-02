@@ -6,7 +6,7 @@
 /*   By: cbignon <cbignon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 11:02:46 by cbignon           #+#    #+#             */
-/*   Updated: 2021/02/01 15:07:15 by cbignon          ###   ########.fr       */
+/*   Updated: 2021/02/02 14:50:33 by cbignon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,26 +103,27 @@ char	*put_in_line(char *temp, char **line, int size)
 
 int		get_next_line(int fd, char **line)
 {
-	static char	*multi_keep[1024];
+	int			in_buf;
+	static char	*keep[1024];
 	char		*buf;
-	t_list		res;
 
-	if (fd < 0 || fd > 1024 || BUFFER_SIZE <= 0 || !line || !(buf = malloc(BUFFER_SIZE)))
+	if (fd < 0 || BUFFER_SIZE <= 0 || !line || !(buf = malloc(BUFFER_SIZE)))
 		return (-1);
 	ft_memset(buf, 0, BUFFER_SIZE);
-	res.in_buf = 1;
-	while (res.in_buf !=0 && (multi_keep[fd]) == 0)
+	in_buf = 1;
+	while (in_buf != 0 && is_this_line(keep[fd]) == 0)
 	{
-		res = multi_fd_read(&multi_keep[fd],fd, buf);
-		multi_keep[fd] = res.str;
-		free(res.str);
-		if (res.in_buf == - 1)
-			return (free_str(&multi_keep[fd]) - 1);
+		if ((in_buf = read(fd, buf, BUFFER_SIZE)) == -1)
+		{
+			free(buf);
+			return (free_str(&keep[fd]) - 1);
+		}
+		keep[fd] = ft_join(keep[fd], buf, in_buf);
 	}
 	free(buf);
-	*line = put_in_line(multi_keep[fd], line, ft_strclen(multi_keep[fd], '\n'));
-	multi_keep[fd] = keep_nxt(multi_keep[fd]);
-	if (res.in_buf == 0)
-		return (free_str(&multi_keep[fd]));
+	*line = put_in_line(keep[fd], line, ft_strclen(keep[fd], '\n'));
+	keep[fd] = keep_nxt(keep[fd]);
+	if (in_buf == 0)
+		return (free_str(&keep[fd]));
 	return (1);
 }

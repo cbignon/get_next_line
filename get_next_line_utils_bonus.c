@@ -6,7 +6,7 @@
 /*   By: cbignon <cbignon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 11:03:33 by cbignon           #+#    #+#             */
-/*   Updated: 2021/02/01 15:17:58 by cbignon          ###   ########.fr       */
+/*   Updated: 2021/02/02 13:53:13 by cbignon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,22 +55,4 @@ void	*try_to_malloc(char *src, int size)
 	if (!(dest = malloc(sizeof(char) * size)))
 		return ((void*)(unsigned long long)free_str(&src));
 	return (dest);
-}
-
-t_list	multi_fd_read(char **multi_keep, int fd, char *buf)
-{
-	t_list		res;
-
-	if (!(multi_keep = (char**)malloc(sizeof(char*) * 1024)))
-	{
-		res.str = NULL;
-		return (res);
-	}
-	while ((res.in_buf = read(fd, buf, BUFFER_SIZE)) > 0 && is_this_line(multi_keep[fd]) == 0)
-	{
-		multi_keep[fd] = ft_join(multi_keep[fd], buf, res.in_buf);
-		res.str = multi_keep[fd];
-		return (res);
-	}
-	return (res);
 }
