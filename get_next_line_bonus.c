@@ -6,7 +6,7 @@
 /*   By: cbignon <cbignon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 11:02:46 by cbignon           #+#    #+#             */
-/*   Updated: 2021/02/02 14:50:33 by cbignon          ###   ########.fr       */
+/*   Updated: 2021/02/03 12:36:32 by cbignon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,12 +104,14 @@ char	*put_in_line(char *temp, char **line, int size)
 int		get_next_line(int fd, char **line)
 {
 	int			in_buf;
-	static char	*keep[1024];
+	static char	**keep;
 	char		*buf;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || !line || !(buf = malloc(BUFFER_SIZE)))
 		return (-1);
 	ft_memset(buf, 0, BUFFER_SIZE);
+	if (!keep)
+		keep = try_to_malloc(buf, 1024);
 	in_buf = 1;
 	while (in_buf != 0 && is_this_line(keep[fd]) == 0)
 	{
@@ -120,7 +122,7 @@ int		get_next_line(int fd, char **line)
 		}
 		keep[fd] = ft_join(keep[fd], buf, in_buf);
 	}
-	free(buf);
+	free_str(&buf);
 	*line = put_in_line(keep[fd], line, ft_strclen(keep[fd], '\n'));
 	keep[fd] = keep_nxt(keep[fd]);
 	if (in_buf == 0)
