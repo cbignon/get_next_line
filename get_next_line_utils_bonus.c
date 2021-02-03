@@ -54,5 +54,6 @@ void	*try_to_malloc(char *src, int size)
 	dest = NULL;
 	if (!(dest = malloc(sizeof(char) * size)))
 		return ((void*)(unsigned long long)free_str(&src));
+	ft_memset(dest, 0, size);
 	return (dest);
 }
